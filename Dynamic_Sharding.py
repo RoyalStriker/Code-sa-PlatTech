@@ -52,17 +52,25 @@ def get_data(key):
 if __name__ == '__main__':
     while True:
         try:
-            key = int(input("Enter the key (integer): "))
-            value = input("Enter the value: ")
-            insert_data(key, value)
-
-            # Optionally, retrieve the data to confirm it was inserted correctly
-            print(f'Retrieved data for key={key}: {get_data(key)}')
-            
+            choice = input("Do you want to (i)nsert or (r)etrieve data? (i/r): ").lower()
+            if choice == 'i':
+                # Insert data
+                key = int(input("Enter the key (integer): "))
+                value = input("Enter the value: ")
+                insert_data(key, value)
+                print(f'Retrieved data for key={key}: {get_data(key)}')
+            elif choice == 'r':
+                # Retrieve data
+                key = int(input("Enter the key (integer) to retrieve: "))
+                print(f'Retrieved data for key={key}: {get_data(key)}')
+            else:
+                print("Invalid choice. Please enter 'i' to insert or 'r' to retrieve data.")
+        
         except ValueError:
             print("Invalid input. Please enter a valid integer for the key.")
 
-        cont = input("Insert more data? (y/n): ").lower()
+        # Ask if the user wants to continue
+        cont = input("Continue? (y/n): ").lower()
         if cont != 'y':
             print("Exiting...")
             break
