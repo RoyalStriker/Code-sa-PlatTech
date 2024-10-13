@@ -13,9 +13,9 @@ def create_db(db_name):
     c = conn.cursor()
     c.execute('''CREATE TABLE IF NOT EXISTS data (key INTEGER PRIMARY KEY, value TEXT)''')
     conn.commit()
-    conn.close()  # Close connection after creating the table
+    conn.close()
 
-shard_1 = create_db('shard_1') # These are now just calls to create the dbs, they don't store open connections.
+shard_1 = create_db('shard_1')
 shard_2 = create_db('shard_2')
 shard_3 = create_db('shard_3')
 
@@ -27,7 +27,7 @@ def get_shard_for_key(key):
 
 def insert_data(key, value):
     """Insert data into the correct shard based on the key."""
-    with sqlite3.connect(os.path.join(db_directory, f'{get_shard_for_key(key)}.db')) as conn:  # Use with statement for automatic closing
+    with sqlite3.connect(os.path.join(db_directory, f'{get_shard_for_key(key)}.db')) as conn:
         c = conn.cursor()
         c.execute('INSERT OR REPLACE INTO data (key, value) VALUES (?, ?)', (key, value))
         conn.commit()
@@ -35,7 +35,7 @@ def insert_data(key, value):
 
 def get_data(key):
     """Retrieve data from the correct shard."""
-    with sqlite3.connect(os.path.join(db_directory, f'{get_shard_for_key(key)}.db')) as conn:  # Use with statement
+    with sqlite3.connect(os.path.join(db_directory, f'{get_shard_for_key(key)}.db')) as conn:
         c = conn.cursor()
         c.execute('SELECT value FROM data WHERE key=?', (key,))
         result = c.fetchone()
@@ -44,7 +44,7 @@ def get_data(key):
     else:
         return "Data not found"
 
-def delete_data(key):  # Added delete_data function
+def delete_data(key):
     """Delete data from the correct shard."""
     shard = get_shard_for_key(key)
     with sqlite3.connect(os.path.join(db_directory, f'{shard}.db')) as conn:
