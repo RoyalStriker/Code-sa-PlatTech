@@ -30,7 +30,7 @@ def insert_data(key, value):
     db_path = os.path.join(db_directory, f'{shard}.db')
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
-    c.execute('INSERT INTO data (key, value) VALUES (?, ?)', (key, value))
+    c.execute('INSERT OR REPLACE INTO data (key, value) VALUES (?, ?)', (key, value))
     conn.commit()
     conn.close()
     print(f'Inserted key={key} into {shard}')
