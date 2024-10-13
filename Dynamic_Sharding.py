@@ -52,7 +52,7 @@ def get_data(key):
 if __name__ == '__main__':
     while True:
         try:
-            choice = input("Do you want to (i)nsert or (r)etrieve data? (i/r): ").lower()
+            choice = input("Do you want to (i)nsert, (r)etrieve, (d)elete, or (s)how data? (i/r/d/s): ").lower()
             if choice == 'i':
                 # Insert data
                 key = int(input("Enter the key (integer): "))
@@ -60,16 +60,19 @@ if __name__ == '__main__':
                 insert_data(key, value)
                 print(f'Retrieved data for key={key}: {get_data(key)}')
             elif choice == 'r':
-                # Retrieve data
                 key = int(input("Enter the key (integer) to retrieve: "))
                 print(f'Retrieved data for key={key}: {get_data(key)}')
+            elif choice == 'd':
+                key = int(input("Enter the key (integer) to delete: "))
+                delete_data(key)
+            elif choice == 's':
+                show_all_data()
             else:
-                print("Invalid choice. Please enter 'i' to insert or 'r' to retrieve data.")
+                print("Invalid choice. Please enter 'i' to insert, 'r' to retrieve, 'd' to delete, or 's' to show data.")
         
         except ValueError:
             print("Invalid input. Please enter a valid integer for the key.")
 
-        # Ask if the user wants to continue
         cont = input("Continue? (y/n): ").lower()
         if cont != 'y':
             print("Exiting...")
